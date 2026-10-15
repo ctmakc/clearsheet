@@ -1,0 +1,19 @@
+SYNTHETIC TEST RECORD - FICTIONAL PATIENT - NOT REAL DATA
+EASTVIEW SURGICAL CENTRE - POST-OPERATIVE DISCHARGE INSTRUCTIONS
+
+Patient: Chloe Tremblay    Chart: ESC-551902    DOB: 1992-05-08
+Procedure: Laparoscopic cholecystectomy on 2026-10-12. Discharged same day.
+
+Pain medication:
+- Acetaminophen 1000 mg PO q6h scheduled for 3 days, then as needed.
+- Ibuprofen 400 mg PO q8h with food PRN for 5 days.
+- Oxycodone 5 mg PO q4h PRN severe pain only. 10 tablets dispensed. No refills. Do not drive or drink alcohol while taking oxycodone.
+- Docusate 100 mg PO BID while taking oxycodone, to prevent constipation.
+
+Wound care: Keep the small dressings dry for 48 hours. You may shower after 48 hours; pat the incisions dry. Do not take a bath or swim for 2 weeks.
+
+Activity: No lifting more than 10 lb (4.5 kg) for 2 weeks. Walk several times a day.
+
+Follow-up: Surgical clinic phone call in 2 weeks. Book with Dr. R. Lachance's office at 613-555-0123.
+
+Call the surgical clinic or go to Emergency if: fever above 38.5 C, yellow skin or eyes, increasing belly pain, redness or pus from incisions, or vomiting that does not stop.

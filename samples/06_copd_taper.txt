@@ -1,0 +1,20 @@
+SYNTHETIC TEST RECORD - FICTIONAL PATIENT - NOT REAL DATA
+VALLEY MEMORIAL HOSPITAL - DISCHARGE SUMMARY
+
+Patient: Robert "Bob" MacLeod    MRN: VMH-773120    Born: 1947-09-19
+Discharged: 2026-10-07 to home with spouse.
+
+Diagnosis: Acute exacerbation of COPD.
+
+Discharge medications:
+1. Prednisone taper: 40 mg PO daily x 3 days, then 30 mg daily x 3 days, then 20 mg daily x 3 days, then 10 mg daily x 3 days, then stop. Take with breakfast.
+2. Tiotropium 18 mcg inhaled once daily (NEW). Replaces ipratropium.
+3. Ipratropium inhaler - STOP.
+4. Salbutamol 100 mcg 2 puffs q4-6h PRN.
+5. Nicotine patch 21 mg/24 h, apply one patch daily (NEW). Do not smoke while wearing the patch.
+
+Home oxygen: not required (resting saturation 93% on room air).
+
+Follow-up: Respirology clinic in 4 weeks. Pulmonary rehabilitation referral sent; they will call you.
+
+Return to hospital if: breathing worse than when you left, need salbutamol more often than every 2 hours, chest pain, or new confusion or drowsiness.

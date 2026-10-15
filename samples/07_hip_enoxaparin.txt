@@ -1,0 +1,19 @@
+SYNTHETIC TEST RECORD - FICTIONAL PATIENT - NOT REAL DATA
+CAPITAL ORTHOPAEDIC INSTITUTE - DISCHARGE INSTRUCTIONS
+
+Patient: Helen Wójcik    MRN: COI-602817    DOB: 1955-12-01    Phone: (819) 555-0164
+Surgery: Right total hip arthroplasty, 2026-10-05. Discharge: 2026-10-08.
+
+Medications:
+- Enoxaparin 40 mg subcutaneous injection once daily for 35 days after surgery (last dose 2026-11-09). This prevents blood clots. Your nurse showed you how to inject.
+- Acetaminophen 1 g PO TID.
+- Celecoxib 200 mg PO daily x 14 days.
+- Hydromorphone 1 mg PO q4h PRN moderate to severe pain. Maximum 6 tablets per day.
+- Pantoprazole 40 mg PO daily while on celecoxib.
+
+Hip precautions for 6 weeks: do not bend your hip past 90 degrees, do not cross your legs, do not twist on the operated leg.
+Use the walker at all times until physiotherapy says otherwise.
+
+Follow-up: Staple removal at your family doctor on day 14 (around 2026-10-19). Orthopaedic surgeon (Dr. A. Nguyen) in 6 weeks with X-ray.
+
+Go to Emergency if: calf pain or swelling, sudden shortness of breath or chest pain, wound drainage that soaks the dressing, fever over 38.5 C, or the leg suddenly looks shorter or turned.

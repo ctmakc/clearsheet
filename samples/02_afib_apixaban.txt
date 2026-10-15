@@ -1,0 +1,22 @@
+SYNTHETIC TEST RECORD - FICTIONAL PATIENT - NOT REAL DATA
+LAKESHORE COMMUNITY HOSPITAL - DISCHARGE INSTRUCTIONS
+
+Name: Daniel Kovac    MRN: 88-310-552    DOB: 1958-11-02
+Phone: 613-555-0177    Email: d.kovac@example.com
+Discharged: 2026-10-06
+
+Reason for admission: New atrial fibrillation with rapid ventricular response.
+
+Medication changes:
+- START apixaban 5 mg by mouth twice daily. This is a blood thinner. Do not miss doses.
+- START diltiazem CD 120 mg by mouth once daily.
+- STOP aspirin 81 mg. Apixaban replaces it; taking both raises bleeding risk.
+- Continue atorvastatin 20 mg by mouth at bedtime.
+
+Avoid ibuprofen and naproxen while on apixaban. Use acetaminophen for pain, maximum 3 g per day.
+
+Follow-up appointments:
+- Cardiology (Dr. S. Mehta) in 4 weeks.
+- Family doctor in 1-2 weeks to review heart rate and blood pressure.
+
+Seek emergency care if: black or bloody stools, vomiting blood, severe headache, sudden weakness on one side of the body, or heart racing with dizziness.

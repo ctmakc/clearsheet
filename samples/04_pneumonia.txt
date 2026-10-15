@@ -1,0 +1,19 @@
+SYNTHETIC TEST RECORD - FICTIONAL PATIENT - NOT REAL DATA
+ST. BRENDAN'S HOSPITAL - DISCHARGE NOTE
+
+Patient: Luis Fernando Ortega    MRN 20033871    DOB 1980-01-30    Tel 613 555 0199
+Discharge date: 2026-10-11
+
+Diagnosis: Community-acquired pneumonia, right lower lobe.
+
+Medications:
+- Amoxicillin-clavulanate 875/125 mg PO BID x 5 more days (complete the full course, last dose 2026-10-16).
+- Azithromycin 500 mg PO daily x 2 more days.
+- Acetaminophen 650 mg PO q6h PRN fever or pain. Do not exceed 3.9 g in 24 hours.
+- Salbutamol inhaler 100 mcg, 2 puffs q4h PRN shortness of breath.
+
+Rest, drink plenty of fluids. No smoking.
+
+Follow-up: Family doctor in 7 to 10 days. Repeat chest X-ray in 6 weeks to confirm the pneumonia has cleared.
+
+Return to Emergency if: trouble breathing, lips turning blue, fever above 39 C after 3 days of antibiotics, coughing up blood, or confusion.

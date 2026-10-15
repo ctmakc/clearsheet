@@ -1,0 +1,19 @@
+SYNTHETIC TEST RECORD - FICTIONAL PATIENT - NOT REAL DATA
+CHILDREN'S HOSPITAL OF THE VALLEY - EMERGENCY DISCHARGE
+
+Patient: Mila Hrytsenko (age 6)    MRN: CHV-1180094    DOB: 2020-04-17
+Parent/guardian: Oksana Hrytsenko    Phone: 613-555-0108
+Seen: 2026-10-10
+
+Diagnosis: Asthma exacerbation, moderate.
+
+Medications:
+- Salbutamol 100 mcg/puff with spacer: 4 puffs every 4 hours for 24 hours, then 2-4 puffs every 4 hours as needed.
+- Dexamethasone 9 mg PO once tomorrow morning (second and last dose).
+- Fluticasone 125 mcg/puff with spacer: 1 puff twice daily, every day, even when well (NEW controller).
+
+Asthma action plan given. Rinse mouth after fluticasone.
+
+Follow-up: Family doctor or pediatrician within 1 week.
+
+Bring Mila back to Emergency or call 911 if: she needs salbutamol more often than every 4 hours, she has trouble speaking or walking because of breathing, her lips look blue or grey, or she is very sleepy or hard to wake.

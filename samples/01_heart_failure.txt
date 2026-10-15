@@ -1,0 +1,24 @@
+SYNTHETIC TEST RECORD - FICTIONAL PATIENT - NOT REAL DATA
+RIVERSIDE GENERAL HOSPITAL - DISCHARGE SUMMARY
+
+Patient: Margaret Ellison    MRN: 4471-2093    DOB: 1951-03-14
+Health Card: 5584-226-914-QT    Phone: (613) 555-0142
+Admission date: 2026-09-28    Discharge date: 2026-10-03
+Attending: Dr. P. Okafor, Internal Medicine
+
+Diagnosis: Acute decompensated heart failure with reduced ejection fraction (EF 30%).
+
+Hospital course: Admitted with shortness of breath and leg swelling. Diuresed with IV furosemide, weight down 4.2 kg. Transitioned to oral diuretic on day 4.
+
+Discharge medications:
+1. Furosemide 40 mg PO BID (INCREASED from 20 mg daily).
+2. Metoprolol succinate 50 mg PO daily. Hold if heart rate below 55.
+3. Spironolactone 12.5 mg PO daily (NEW).
+4. Ramipril 2.5 mg PO daily (continue).
+5. Potassium chloride 20 mEq PO daily - STOPPED. Do not take.
+
+Instructions: Weigh yourself every morning after urinating, before breakfast. Limit salt to 2 g per day and fluids to 1.5 L per day.
+
+Follow-up: Heart Function Clinic in 7 days. Blood work (potassium and kidney function) in 5 days at any LifeLabs location.
+
+Return to the Emergency Department or call 911 if: weight gain of more than 2 kg in 3 days, shortness of breath at rest, chest pain, fainting.

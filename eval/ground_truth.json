@@ -1,0 +1,225 @@
+{
+ "01_heart_failure": {
+  "medications": [
+   {
+    "name": "furosemide",
+    "dose": "40 mg",
+    "status": "changed"
+   },
+   {
+    "name": "metoprolol",
+    "dose": "50 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "spironolactone",
+    "dose": "12.5 mg",
+    "status": "new"
+   },
+   {
+    "name": "ramipril",
+    "dose": "2.5 mg",
+    "status": "continue"
+   },
+   {
+    "name": "potassium chloride",
+    "dose": "20 mEq",
+    "status": "stopped"
+   }
+  ],
+  "warning_signs": 4,
+  "follow_ups": 2
+ },
+ "02_afib_apixaban": {
+  "medications": [
+   {
+    "name": "apixaban",
+    "dose": "5 mg",
+    "status": "new"
+   },
+   {
+    "name": "diltiazem",
+    "dose": "120 mg",
+    "status": "new"
+   },
+   {
+    "name": "aspirin",
+    "dose": "81 mg",
+    "status": "stopped"
+   },
+   {
+    "name": "atorvastatin",
+    "dose": "20 mg",
+    "status": "continue"
+   },
+   {
+    "name": "acetaminophen",
+    "dose": "3 g",
+    "status": "unspecified"
+   }
+  ],
+  "warning_signs": 5,
+  "follow_ups": 2
+ },
+ "03_diabetes_insulin": {
+  "medications": [
+   {
+    "name": "insulin glargine",
+    "dose": "14 units",
+    "status": "new"
+   },
+   {
+    "name": "metformin",
+    "dose": "1000 mg",
+    "status": "changed"
+   },
+   {
+    "name": "empagliflozin",
+    "dose": "10 mg",
+    "status": "new"
+   },
+   {
+    "name": "lisinopril",
+    "dose": "10 mg",
+    "status": "continue"
+   }
+  ],
+  "warning_signs": 4,
+  "follow_ups": 2
+ },
+ "04_pneumonia": {
+  "medications": [
+   {
+    "name": "amoxicillin-clavulanate",
+    "dose": "875/125 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "azithromycin",
+    "dose": "500 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "acetaminophen",
+    "dose": "650 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "salbutamol",
+    "dose": "100 mcg",
+    "status": "unspecified"
+   }
+  ],
+  "warning_signs": 5,
+  "follow_ups": 2
+ },
+ "05_cholecystectomy_opioid": {
+  "medications": [
+   {
+    "name": "acetaminophen",
+    "dose": "1000 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "ibuprofen",
+    "dose": "400 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "oxycodone",
+    "dose": "5 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "docusate",
+    "dose": "100 mg",
+    "status": "unspecified"
+   }
+  ],
+  "warning_signs": 5,
+  "follow_ups": 1
+ },
+ "06_copd_taper": {
+  "medications": [
+   {
+    "name": "prednisone",
+    "dose": "40 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "tiotropium",
+    "dose": "18 mcg",
+    "status": "new"
+   },
+   {
+    "name": "ipratropium",
+    "dose": "",
+    "status": "stopped"
+   },
+   {
+    "name": "salbutamol",
+    "dose": "100 mcg",
+    "status": "unspecified"
+   },
+   {
+    "name": "nicotine patch",
+    "dose": "21 mg",
+    "status": "new"
+   }
+  ],
+  "warning_signs": 4,
+  "follow_ups": 2
+ },
+ "07_hip_enoxaparin": {
+  "medications": [
+   {
+    "name": "enoxaparin",
+    "dose": "40 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "acetaminophen",
+    "dose": "1 g",
+    "status": "unspecified"
+   },
+   {
+    "name": "celecoxib",
+    "dose": "200 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "hydromorphone",
+    "dose": "1 mg",
+    "status": "unspecified"
+   },
+   {
+    "name": "pantoprazole",
+    "dose": "40 mg",
+    "status": "unspecified"
+   }
+  ],
+  "warning_signs": 5,
+  "follow_ups": 2
+ },
+ "08_pediatric_asthma": {
+  "medications": [
+   {
+    "name": "salbutamol",
+    "dose": "100 mcg",
+    "status": "unspecified"
+   },
+   {
+    "name": "dexamethasone",
+    "dose": "9 mg",
+    "status": "new"
+   },
+   {
+    "name": "fluticasone",
+    "dose": "125 mcg",
+    "status": "new"
+   }
+  ],
+  "warning_signs": 4,
+  "follow_ups": 1
+ }
+}

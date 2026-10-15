@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clearsheet</title>
+<meta name="description" content="Discharge instructions a patient can follow, in their language, with every line traced to the source and released by a nurse. Gemma on AMD Instinct.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&family=Noto+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;600&family=Noto+Sans+Arabic:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="mark" aria-hidden="true"></span>
+    <div><h1>Clearsheet</h1><p>Discharge instructions a patient can follow. Every line traced to the source, released by a nurse.</p></div>
+  </div>
+  <div class="backend" id="backend"><span class="led"></span><span id="backendText">connecting…</span></div>
+</header>
+
+<form class="controls" id="controls">
+  <label>Case<select id="case"></select></label>
+  <label>Patient language<select id="lang"></select></label>
+  <label class="initials">Nurse initials<input id="reviewer" maxlength="8" placeholder="e.g. RN-KT" autocomplete="off"></label>
+  <button type="submit" id="run" class="primary">Run on AMD</button>
+  <span class="runinfo" id="runinfo"></span>
+</form>
+
+<main class="trace" id="trace">
+  <section class="source">
+    <div class="pane-head"><h2>Discharge summary</h2><span class="note" id="masked">identifiers are masked on this machine before any model call</span></div>
+    <textarea id="paste" class="paste" hidden placeholder="Paste a discharge summary (synthetic or de-identified only)."></textarea>
+    <pre id="doc" class="doc"></pre>
+  </section>
+  <section class="facts">
+    <div class="pane-head"><h2>What the patient will read</h2><div class="tally" id="tally"></div></div>
+    <div id="groups" class="groups"><p class="empty">Pick a case and run it. Gemma drafts each line, code checks it against the source, a nurse releases it.</p></div>
+  </section>
+</main>
+
+<footer class="release" id="releaseBar" hidden>
+  <div class="left"><b id="leftCount"></b><span id="leftText"></span></div>
+  <button id="release" class="primary" disabled>Release patient sheet</button>
+</footer>
+
+<section class="log" id="log" hidden>
+  <h2>Run log</h2>
+  <table><thead><tr><th>Step</th><th>Backend</th><th>Model</th><th class="n">Prompt tok</th><th class="n">Output tok</th><th class="n">Seconds</th></tr></thead><tbody id="logRows"></tbody></table>
+</section>
+
+<section class="evalbox" id="evalbox" hidden>
+  <h2>Measured on the 8 synthetic cases</h2>
+  <div class="evalgrid" id="evalgrid"></div>
+  <p class="note" id="evalnote"></p>
+</section>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="overlay-bar"><b>Patient sheet</b><span class="note">only released lines are printed</span><button id="print" class="primary">Print</button><button id="close">Close</button></div>
+  <iframe id="sheetFrame" title="Patient sheet"></iframe>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>

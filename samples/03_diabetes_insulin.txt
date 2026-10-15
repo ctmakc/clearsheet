@@ -1,0 +1,21 @@
+SYNTHETIC TEST RECORD - FICTIONAL PATIENT - NOT REAL DATA
+NORTHGATE REGIONAL HEALTH CENTRE - DISCHARGE SUMMARY
+
+Patient name: Aisha Rahman    Medical record #: NRH-0093374    Date of birth: 1969-07-21
+Address: 214 Bayview Crescent, Ottawa ON K2B 7T4
+Date of discharge: 2026-10-09
+
+Diagnoses: Type 2 diabetes with hyperglycemia (A1c 11.2%). CT scan with IV contrast on 2026-10-08.
+
+Discharge medications:
+1. Insulin glargine 14 units subcutaneously at bedtime (NEW).
+2. Metformin 1000 mg PO BID - HOLD for 48 hours after the CT contrast; restart on 2026-10-10 in the evening.
+3. Empagliflozin 10 mg PO once daily in the morning (NEW).
+4. Lisinopril 10 mg PO daily (continue).
+
+Check blood sugar before breakfast and before supper. Write the numbers in your logbook.
+If blood sugar is below 4.0 mmol/L: take 15 g of fast sugar (for example 3/4 cup of juice), recheck in 15 minutes.
+
+Follow-up: Diabetes Education Centre in 1 week for insulin teaching review. Family physician in 2 weeks.
+
+Go to the Emergency Department if: blood sugar below 4.0 mmol/L that does not come up after two treatments, blood sugar above 20 mmol/L twice in a row, confusion, or repeated vomiting.
