@@ -70,7 +70,7 @@
     } else html = withPh(t);
     $("doc").innerHTML = html;
     const m = document.getElementById("m");
-    if (m) { m.scrollIntoView({ block: "center", behavior: "smooth" }); requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add("on"))); }
+    if (m) { const d = $("doc"); d.scrollTo({ top: Math.max(0, m.offsetTop - d.clientHeight / 3), behavior: "smooth" }); requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add("on"))); }
     const masked = run ? Object.entries(run.masked).map(([k, v]) => `${v} ${k.toLowerCase().replace("_", " ")}`).join(", ") : "";
     $("masked").textContent = masked ? `masked on this machine before any model call: ${masked}` : "identifiers are masked on this machine before any model call";
   }
@@ -172,9 +172,10 @@
     const e = await r.json(), m = e.medications, pct = (x) => (x == null ? "—" : `${Math.round(x * 100)}%`);
     const tl = Object.entries(e.translation_clean_rate).map(([k, v]) => `${k} ${pct(v)}`).join(" · ");
     $("evalgrid").innerHTML = [
-      [pct(m.recall), `medicines found (${m.tp}/${m.gt})`], [pct(m.precision), "of extracted medicines are real"],
+      [pct(m.recall), `medicines found (${m.tp}/${m.gt})`], [`${m.invented ?? "—"}`, `invented medicines (${m.extracted - m.tp} extra rows are taper steps or repeats)`],
       [pct(m.dose_exact), "doses exact"], [pct(e.mutation_test.rate), `injected errors caught (${e.mutation_test.caught}/${e.mutation_test.total})`],
-      [pct(e.translation_mutation_test.rate), "wrong doses in translation caught"], [`${e.completion_tokens_per_s_aggregate}`, "output tokens/s, batched on one GPU"],
+      [pct(e.translation_mutation_test.rate), "wrong doses in translation caught"],
+      ...(e.urgency_mutation_test ? [[pct(e.urgency_mutation_test.rate), `softened emergency lines caught (${e.urgency_mutation_test.caught}/${e.urgency_mutation_test.total})`]] : []), [`${e.completion_tokens_per_s_aggregate}`, "output tokens/s during this eval, 16 requests in parallel"],
     ].map(([a, b]) => `<div><b>${a}</b><span>${b}</span></div>`).join("");
     $("evalnote").textContent = `${e.docs} synthetic discharge summaries × ${e.languages.length} languages, ${e.calls} model calls, ${e.backend}, ${e.model}, ${e.run_at}. Translation lines with no automatic flag: ${tl}.`;
     $("evalbox").hidden = false;

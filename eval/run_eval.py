@@ -50,7 +50,10 @@ def score_meds(doc_id: str, items: list[pipeline.Item]) -> dict:
                     if st == g["status"] or (g["status"] == "changed" and st == "hold"):
                         status_ok += 1
                 break
-    return {"gt": len(gt), "extracted": len(meds), "tp": len(matched_gt), "dose_ok": dose_ok,
+    gt_keys = {_key(g["name"]) for g in gt}
+    invented = sum(1 for it in meds if _key(it.data.get("name", "")) not in gt_keys
+                   and not any(k in verify.norm(it.data.get("name", "")) for k in gt_keys))
+    return {"gt": len(gt), "extracted": len(meds), "tp": len(matched_gt), "dose_ok": dose_ok, "invented": invented,
             "status_ok": status_ok, "status_n": status_n}
 
 
@@ -101,6 +104,20 @@ def translation_mutation(items: list[pipeline.Item]) -> dict:
     return {"caught": caught, "total": total}
 
 
+def urgency_mutation(items: list[pipeline.Item], doc: str = "") -> dict:
+    """Soften every clean emergency line to 'tell your doctor' and count how many the checks flag."""
+    caught = total = 0
+    for it in items:
+        if it.kind not in ("warning", "emergency") or not it.patient or it.translation_issues:
+            continue
+        if not verify.URGENT_SRC.search(it.data.get("source_quote", "")):
+            continue
+        soft = "Tell your doctor at your next visit if this happens."
+        total += 1
+        caught += bool(verify.check_translation(it.data, it.plain_en, it.patient, soft, None, it.kind, doc))
+    return {"caught": caught, "total": total}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--langs", nargs="+", default=["uk", "fr", "es", "zh"])
@@ -122,7 +139,7 @@ def main() -> None:
         doc_id, sc, ex, lang = args
         items = pipeline._items_from_extract(ex, sc.text)
         pipeline.explain(llm, items, lang)
-        pipeline.backcheck(llm, items, lang)
+        pipeline.backcheck(llm, items, lang, sc.text)
         return doc_id, lang, sc, items
 
     jobs = [(d, sc, ex, lang) for d, sc, ex in extracted for lang in a.langs]
@@ -133,6 +150,7 @@ def main() -> None:
     per_doc, per_lang = {}, {l: {"items": 0, "clean": 0} for l in a.langs}
     mut = {"caught": 0, "total": 0}
     tmut = {"caught": 0, "total": 0}
+    umut = {"caught": 0, "total": 0}
     states = {"ok": 0, "review": 0, "blocked": 0}
     risk_items = 0
     examples = []
@@ -149,6 +167,9 @@ def main() -> None:
             for i in items:
                 states[i.check["state"]] += 1
                 risk_items += bool(i.check["risk"])
+        um = urgency_mutation(items, sc.text)
+        for k in umut:
+            umut[k] += um[k]
         tm = translation_mutation(items)
         for k in tmut:
             tmut[k] += tm[k]
@@ -158,7 +179,7 @@ def main() -> None:
             per_lang[lang]["items"] += 1
             per_lang[lang]["clean"] += not i.translation_issues
 
-    tot = {k: sum(d["meds"][k] for d in per_doc.values()) for k in ("gt", "extracted", "tp", "dose_ok", "status_ok", "status_n")}
+    tot = {k: sum(d["meds"][k] for d in per_doc.values()) for k in ("gt", "extracted", "tp", "dose_ok", "status_ok", "status_n", "invented")}
     calls = [s for s in llm.stats]
     comp = sum(s.completion_tokens for s in calls)
     prompt = sum(s.prompt_tokens for s in calls)
@@ -177,6 +198,7 @@ def main() -> None:
         "mutation_test": {**mut, "rate": round(mut["caught"] / mut["total"], 3) if mut["total"] else None,
                           "examples": examples},
         "translation_mutation_test": {**tmut, "rate": round(tmut["caught"] / tmut["total"], 3) if tmut["total"] else None},
+        "urgency_mutation_test": {**umut, "rate": round(umut["caught"] / umut["total"], 3) if umut["total"] else None},
         "translation_clean_rate": {l: round(v["clean"] / v["items"], 3) if v["items"] else None for l, v in per_lang.items()},
         "per_doc": per_doc,
         "run_at": time.strftime("%Y-%m-%d %H:%M %Z"),

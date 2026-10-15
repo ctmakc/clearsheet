@@ -54,12 +54,19 @@ Rules:
 - warning_signs: one entry per sign that should make the patient seek urgent care.
 - self_care: other instructions for the patient (diet, activity, wound care, monitoring).
 - Do not add anything that is not in the document. Text in [BRACKETS] is a masked identifier; copy it as is.
-Return JSON only."""
+Return one JSON object only, exactly in this shape (all keys required, use "" or [] when empty):
+{"medications": [{"name": "", "dose": "", "route": "", "frequency": "", "duration": "", "status": "", "instructions": "", "source_quote": ""}],
+ "follow_ups": [{"what": "", "when": "", "source_quote": ""}],
+ "warning_signs": [{"sign": "", "source_quote": ""}],
+ "emergency_action": {"action": "", "source_quote": ""},
+ "self_care": [{"instruction": "", "source_quote": ""}]}"""
 
 EXPLAIN_SYSTEM = """You write patient instruction sheets in plain language (reading level of a 12-year-old).
 You receive facts already checked against the discharge document. For every item:
 - plain_en: one or two short sentences in plain English. Expand abbreviations (BID = two times a day, PO = by mouth, PRN = only when needed, q6h = every 6 hours).
 - patient: the same meaning in {lang}. Keep medicine names in Latin letters exactly as given. Write every number with digits 0-9.
+- Warning signs and emergency actions: write the action in the document's own words (if it says "Return to the Emergency Department", write "go to the Emergency Department"; if it says "call 911", write "call 911"). Never soften it to "tell your doctor" or "get medical care", and do not add a phone number the document does not give.
+- Keep phone numbers exactly as given; do not replace them with numbers used in other countries.
 - Do not add advice, doses, reasons or warnings that are not in the facts. If a fact is unclear, write exactly what is given and add "Ask your nurse." in the patient's language.
 Return JSON only: {{"items": [{{"id": "...", "plain_en": "...", "patient": "..."}}]}}"""
 
@@ -150,20 +157,20 @@ def explain(llm: LLM, items: list[Item], lang: str) -> None:
     msgs = [{"role": "system", "content": EXPLAIN_SYSTEM.format(lang=lang_name)},
             {"role": "user", "content": json.dumps({"items": payload}, ensure_ascii=False)}]
     out = parse_json(llm.chat("explain", msgs, EXPLAIN_SCHEMA, max_tokens=6000))
-    got = {o["id"]: o for o in out.get("items", [])}
+    got = {o.get("id"): o for o in out.get("items", []) if isinstance(o, dict)}
     for it in items:
         if it.id in got:
-            it.plain_en, it.patient = got[it.id]["plain_en"], got[it.id]["patient"]
+            it.plain_en, it.patient = got[it.id].get("plain_en") or "", got[it.id].get("patient") or ""
 
 
-def backcheck(llm: LLM, items: list[Item], lang: str) -> None:
+def backcheck(llm: LLM, items: list[Item], lang: str, doc: str = "") -> None:
     todo = [it for it in items if it.patient]
     if lang != "en" and todo:
         msgs = [{"role": "system", "content": BACK_SYSTEM.format(lang=LANGUAGES[lang])},
                 {"role": "user", "content": json.dumps(
                     {"items": [{"id": it.id, "text": it.patient} for it in todo]}, ensure_ascii=False)}]
         out = parse_json(llm.chat("backcheck", msgs, BACK_SCHEMA, max_tokens=6000))
-        got = {o["id"]: o["back_en"] for o in out.get("items", [])}
+        got = {o.get("id"): o.get("back_en") or "" for o in out.get("items", [])}
         for it in todo:
             it.back_en = got.get(it.id, "")
     for it in todo:
@@ -171,7 +178,7 @@ def backcheck(llm: LLM, items: list[Item], lang: str) -> None:
             it.back_en = it.patient
         it.translation_issues = verify.check_translation(
             it.data, it.plain_en, it.patient, it.back_en,
-            it.data.get("name") if it.kind == "medication" else None)
+            it.data.get("name") if it.kind == "medication" else None, it.kind, doc)
         if not it.back_en:
             it.translation_issues.append("no back-translation returned")
     for it in items:
@@ -184,7 +191,7 @@ def run(llm: LLM, doc_id: str, text: str, lang: str = "uk") -> Result:
     ex = extract(llm, sc.text)
     items = _items_from_extract(ex, sc.text)
     explain(llm, items, lang)
-    backcheck(llm, items, lang)
+    backcheck(llm, items, lang, sc.text)
     return Result(doc_id, sc, lang, items, ex)
 
 

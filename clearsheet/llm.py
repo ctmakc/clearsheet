@@ -65,7 +65,7 @@ class LLM:
             backend_label=os.environ.get("CLEARSHEET_BACKEND_LABEL",
                                          "AMD Instinct MI300X · vLLM (ROCm)" if base else "replay"),
             mode=mode,
-            guided_json=os.environ.get("CLEARSHEET_GUIDED_JSON", "1") == "1",
+            guided_json=os.environ.get("CLEARSHEET_GUIDED_JSON", "0") == "1",
         )
 
     # ---- cache -------------------------------------------------------
@@ -89,7 +89,7 @@ class LLM:
     def chat(self, step: str, messages: list[dict], schema: dict | None = None,
              temperature: float = 0.0, max_tokens: int = 3000) -> str:
         messages = merge_system(messages)
-        k = self.key(self.model, messages, schema if self.guided_json else None, temperature)
+        k = self.key(self.model, messages, None, temperature)
         cache = self._load()
         if self.mode == "replay":
             rec = cache.get(k)

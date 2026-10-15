@@ -1,0 +1,43 @@
+{
+ "model": "gemma-3-27b-it",
+ "backend": "AMD Instinct MI300X (gfx942) \u00b7 vLLM 0.7.4 V1 engine, ROCm 6.3 \u00b7 AMD AI Notebooks",
+ "rows": [
+  {
+   "concurrency": 1,
+   "requests": 8,
+   "wall_s": 166.5,
+   "output_tokens": 6768,
+   "output_tok_per_s": 40.7,
+   "docs_per_min": 2.9,
+   "p50_latency_s": 20.6
+  },
+  {
+   "concurrency": 8,
+   "requests": 8,
+   "wall_s": 31.0,
+   "output_tokens": 6768,
+   "output_tok_per_s": 218.2,
+   "docs_per_min": 15.5,
+   "p50_latency_s": 22.3
+  },
+  {
+   "concurrency": 32,
+   "requests": 32,
+   "wall_s": 38.5,
+   "output_tokens": 27081,
+   "output_tok_per_s": 702.6,
+   "docs_per_min": 49.8,
+   "p50_latency_s": 27.6
+  },
+  {
+   "concurrency": 64,
+   "requests": 64,
+   "wall_s": 48.3,
+   "output_tokens": 53945,
+   "output_tok_per_s": 1118.0,
+   "docs_per_min": 79.6,
+   "p50_latency_s": 35.5
+  }
+ ],
+ "run_at": "2026-10-15 12:23 EDT"
+}

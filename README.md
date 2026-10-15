@@ -44,6 +44,10 @@ printable patient sheet (patient language first, English under it, dosette-style
 
 The model drafts. Code decides what is allowed to reach the patient. The nurse decides the rest.
 
+Known limits: the eight cases are synthetic and written by us; the checks are rules, so they catch numbers,
+names, quotes and urgency words, and leave meaning to the nurse (who sees the back-translation). When the model
+does not extract a separate emergency action line, the sheet prints the document's own lead-in sentence in English.
+
 What it does not do: diagnose, recommend treatment, change doses, or add advice that is not in
 the discharge summary. The sheet says so in its footer.
 
@@ -52,7 +56,37 @@ the discharge summary. The sheet says so in its footer.
 See `eval/results.json` (written by `python -m eval.run_eval`) and `eval/bench.json`
 (`python -m eval.bench`). The numbers below are copied from those files.
 
-RESULTS_PLACEHOLDER
+Run: 2026-10-15 13:05 EDT, gemma-3-27b-it on AMD Instinct MI300X (gfx942) · vLLM 0.7.4 V1 engine, ROCm 6.3 · AMD AI Notebooks. 8 synthetic discharge summaries
+× 6 languages (uk, fr, es, zh, ar, en), 96 model calls,
+165,033 tokens.
+
+| What we measured | Result |
+|---|---|
+| Medicines found (vs. hand annotation) | 97% (34 of 35) |
+| Invented medicines | 0 (the 4 extra rows are prednisone taper steps) |
+| Found medicines with the exact dose | 100% (34 of 34) |
+| new / changed / stopped labelled right | 94% (16 of 17) |
+| Injected wrong numbers and invented quotes blocked | 99% (173 of 175); the 2 misses are steps of a prednisone taper, which is always sent to a nurse |
+| Wrong doses planted in translations flagged | 100% (189 of 189) |
+| Emergency lines softened to "tell your doctor" flagged | 100% (120 of 120) |
+| Translated lines with no automatic flag | uk 91% · fr 96% · es 95% · zh 96% · ar 95% · en 97% |
+
+Throughput of the extraction step on one MI300X (gemma-3-27b-it, bf16, vLLM V1 engine on ROCm), `eval/bench.json`:
+
+| Parallel requests | Output tokens/s | Summaries/min | p50 latency |
+|---|---|---|---|
+| 1 | 40.7 | 2.9 | 20.6 s |
+| 8 | 218.2 | 15.5 | 22.3 s |
+| 32 | 702.6 | 49.8 | 27.6 s |
+| 64 | 1118.0 | 79.6 | 35.5 s |
+
+Two catches from real runs on the MI300X:
+
+- First prompt version: Gemma translated "call 911" into Ukrainian as "call 103", the ambulance number in Ukraine.
+  The translation check flagged every such line (a number not in the source). We then added a prompt rule; the check stays.
+- In the same first version, Gemma rewrote "Seek emergency care if: black or bloody stools" as "Tell your doctor if
+  you have black or bloody stools", and our checks of that day passed it. That is why the urgency check exists: an
+  emergency line that comes back as "tell your doctor", "see your GP" or "get medical care" is now flagged.
 
 ## Run it
 

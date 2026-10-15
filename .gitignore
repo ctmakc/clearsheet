@@ -3,3 +3,5 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+docs/video/out/
+docs/deck.html

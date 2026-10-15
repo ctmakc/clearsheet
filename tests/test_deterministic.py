@@ -67,3 +67,22 @@ def test_schedule_slots():
     assert slots("q6h PRN")["prn"] is True and slots("q6h PRN")["slots"] == []
     assert slots("TID")["slots"] == ["morning", "midday", "evening"]
     assert slots("whenever the moon is full") is None
+
+
+def test_number_present_elsewhere_in_quote_still_blocked():
+    doc = (ROOT / "samples" / "05_cholecystectomy_opioid.txt").read_text()
+    quote = "Oxycodone 5 mg PO q4h PRN severe pain only. 10 tablets dispensed. No refills."
+    good = {"name": "Oxycodone", "dose": "5 mg", "frequency": "q4h PRN", "source_quote": quote}
+    bad = dict(good, dose="10 mg")  # 10 appears in the quote, but as "10 tablets"
+    assert verify.check_item("medication", good, doc)["state"] == "review"  # opioid -> nurse
+    assert verify.check_item("medication", bad, doc)["state"] == "blocked"
+
+
+def test_softened_emergency_line_flagged():
+    item = {"sign": "black or bloody stools",
+            "source_quote": "Seek emergency care if: black or bloody stools, vomiting blood, severe headache."}
+    soft = verify.check_translation(item, "Tell your doctor if you have black or bloody stools.", "x", "x", None, "warning")
+    assert soft and "urgency" in soft[0]
+    ok = verify.check_translation(item, "Go to the emergency department if you have black or bloody stools.", "x",
+                                  "Go to emergency if you have black stools.", None, "warning")
+    assert ok == []

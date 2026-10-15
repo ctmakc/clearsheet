@@ -1,0 +1,300 @@
+{
+ "backend": "AMD Instinct MI300X (gfx942) · vLLM 0.7.4 V1 engine, ROCm 6.3 · AMD AI Notebooks",
+ "model": "gemma-3-27b-it",
+ "mode": "live",
+ "docs": 8,
+ "languages": [
+  "uk",
+  "fr",
+  "es",
+  "zh",
+  "ar",
+  "en"
+ ],
+ "wall_seconds": 200.1,
+ "calls": 96,
+ "prompt_tokens": 87751,
+ "completion_tokens": 77282,
+ "completion_tokens_per_s_aggregate": 386.1,
+ "median_call_latency_s": 24.166014671325684,
+ "medications": {
+  "gt": 35,
+  "extracted": 38,
+  "tp": 34,
+  "dose_ok": 34,
+  "status_ok": 16,
+  "status_n": 17,
+  "invented": 0,
+  "recall": 0.971,
+  "precision": 0.895,
+  "dose_exact": 1.0,
+  "status_accuracy": 0.941
+ },
+ "item_states_first_lang": {
+  "ok": 86,
+  "review": 26,
+  "blocked": 0
+ },
+ "items_with_risk_flags": 18,
+ "mutation_test": {
+  "caught": 173,
+  "total": 175,
+  "rate": 0.989,
+  "examples": [
+   {
+    "field": "dose",
+    "from": "40 mg",
+    "to": "80 mg",
+    "caught": true
+   },
+   {
+    "field": "dose",
+    "from": "5 mg",
+    "to": "10 mg",
+    "caught": true
+   },
+   {
+    "field": "dose",
+    "from": "14 units",
+    "to": "28 units",
+    "caught": true
+   },
+   {
+    "field": "dose",
+    "from": "875/125 mg",
+    "to": "1750/125 mg",
+    "caught": true
+   },
+   {
+    "field": "dose",
+    "from": "1000 mg",
+    "to": "2000 mg",
+    "caught": true
+   },
+   {
+    "field": "dose",
+    "from": "40 mg",
+    "to": "80 mg",
+    "caught": true
+   },
+   {
+    "field": "dose",
+    "from": "40 mg",
+    "to": "80 mg",
+    "caught": true
+   },
+   {
+    "field": "dose",
+    "from": "100 mcg/puff",
+    "to": "200 mcg/puff",
+    "caught": true
+   }
+  ]
+ },
+ "translation_mutation_test": {
+  "caught": 189,
+  "total": 189,
+  "rate": 1.0
+ },
+ "urgency_mutation_test": {
+  "caught": 120,
+  "total": 120,
+  "rate": 1.0
+ },
+ "translation_clean_rate": {
+  "uk": 0.911,
+  "fr": 0.955,
+  "es": 0.946,
+  "zh": 0.964,
+  "ar": 0.946,
+  "en": 0.973
+ },
+ "per_doc": {
+  "01_heart_failure": {
+   "meds": {
+    "gt": 5,
+    "extracted": 5,
+    "tp": 5,
+    "dose_ok": 5,
+    "invented": 0,
+    "status_ok": 4,
+    "status_n": 4
+   },
+   "states": {
+    "ok": 12,
+    "review": 2,
+    "blocked": 0
+   },
+   "items": 14,
+   "scrubbed": {
+    "NAME": 1,
+    "MRN": 1,
+    "HEALTH_CARD": 1,
+    "DOB": 1,
+    "PHONE": 1
+   }
+  },
+  "02_afib_apixaban": {
+   "meds": {
+    "gt": 5,
+    "extracted": 4,
+    "tp": 4,
+    "dose_ok": 4,
+    "invented": 0,
+    "status_ok": 4,
+    "status_n": 4
+   },
+   "states": {
+    "ok": 11,
+    "review": 2,
+    "blocked": 0
+   },
+   "items": 13,
+   "scrubbed": {
+    "NAME": 1,
+    "MRN": 1,
+    "DOB": 1,
+    "EMAIL": 1,
+    "PHONE": 1
+   }
+  },
+  "03_diabetes_insulin": {
+   "meds": {
+    "gt": 4,
+    "extracted": 4,
+    "tp": 4,
+    "dose_ok": 4,
+    "invented": 0,
+    "status_ok": 4,
+    "status_n": 4
+   },
+   "states": {
+    "ok": 11,
+    "review": 2,
+    "blocked": 0
+   },
+   "items": 13,
+   "scrubbed": {
+    "NAME": 1,
+    "MRN": 1,
+    "DOB": 1,
+    "ADDRESS": 1
+   }
+  },
+  "04_pneumonia": {
+   "meds": {
+    "gt": 4,
+    "extracted": 4,
+    "tp": 4,
+    "dose_ok": 4,
+    "invented": 0,
+    "status_ok": 0,
+    "status_n": 0
+   },
+   "states": {
+    "ok": 11,
+    "review": 4,
+    "blocked": 0
+   },
+   "items": 15,
+   "scrubbed": {
+    "NAME": 1,
+    "MRN": 1,
+    "DOB": 1,
+    "PHONE": 1
+   }
+  },
+  "05_cholecystectomy_opioid": {
+   "meds": {
+    "gt": 4,
+    "extracted": 4,
+    "tp": 4,
+    "dose_ok": 4,
+    "invented": 0,
+    "status_ok": 0,
+    "status_n": 0
+   },
+   "states": {
+    "ok": 10,
+    "review": 4,
+    "blocked": 0
+   },
+   "items": 14,
+   "scrubbed": {
+    "NAME": 1,
+    "MRN": 1,
+    "DOB": 1,
+    "PHONE": 1
+   }
+  },
+  "06_copd_taper": {
+   "meds": {
+    "gt": 5,
+    "extracted": 9,
+    "tp": 5,
+    "dose_ok": 5,
+    "invented": 0,
+    "status_ok": 3,
+    "status_n": 3
+   },
+   "states": {
+    "ok": 10,
+    "review": 6,
+    "blocked": 0
+   },
+   "items": 16,
+   "scrubbed": {
+    "NAME": 1,
+    "MRN": 1,
+    "DOB": 1
+   }
+  },
+  "07_hip_enoxaparin": {
+   "meds": {
+    "gt": 5,
+    "extracted": 5,
+    "tp": 5,
+    "dose_ok": 5,
+    "invented": 0,
+    "status_ok": 0,
+    "status_n": 0
+   },
+   "states": {
+    "ok": 13,
+    "review": 4,
+    "blocked": 0
+   },
+   "items": 17,
+   "scrubbed": {
+    "NAME": 1,
+    "MRN": 1,
+    "DOB": 1,
+    "PHONE": 1
+   }
+  },
+  "08_pediatric_asthma": {
+   "meds": {
+    "gt": 3,
+    "extracted": 3,
+    "tp": 3,
+    "dose_ok": 3,
+    "invented": 0,
+    "status_ok": 1,
+    "status_n": 2
+   },
+   "states": {
+    "ok": 8,
+    "review": 2,
+    "blocked": 0
+   },
+   "items": 10,
+   "scrubbed": {
+    "NAME": 3,
+    "MRN": 1,
+    "DOB": 1,
+    "PHONE": 1
+   }
+  }
+ },
+ "run_at": "2026-10-15 13:05 EDT"
+}

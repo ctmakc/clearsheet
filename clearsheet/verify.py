@@ -14,6 +14,8 @@ import re
 import unicodedata
 
 NUM_RE = re.compile(r"\d+(?:[.,]\d+)?")
+# a number (or range / ratio) bound to its unit: "40 mg", "875/125 mg", "1-2 weeks", "q6h" -> "6h"
+QTY_RE = re.compile(r"\d+(?:[.,]\d+)?(?:\s*[-/]\s*\d+(?:[.,]\d+)?)?\s*[a-zA-Z\u00b5%]+")
 
 # ISMP high-alert medication classes, community/ambulatory list (subset).
 HIGH_ALERT = {
@@ -94,6 +96,10 @@ def check_item(kind: str, item: dict, doc: str) -> dict:
     missing = sorted({n for f in fields for n in numbers(f)} - qnums)
     if missing:
         issues.append("numbers not in the source quote: " + ", ".join(missing))
+    nq = norm(quote).replace(" ", "")
+    unbound = sorted({q for f in fields for q in QTY_RE.findall(norm(f)) if q.replace(" ", "") not in nq})
+    if unbound and not missing:
+        issues.append("numbers with units not in the source quote: " + ", ".join(unbound))
 
     if kind == "medication":
         name = item.get("name", "")
@@ -117,12 +123,30 @@ def check_item(kind: str, item: dict, doc: str) -> dict:
     return {"grounding": g, "issues": issues, "risk": risk, "state": state}
 
 
-def check_translation(item: dict, plain_en: str, patient: str, back_en: str, drug_name: str | None) -> list[str]:
+URGENT_SRC = re.compile(r"emergency|911|\ber\b|urgent|ambulance|go to (the )?hospital|seek (urgent|emergency)", re.I)
+SOFT_OUT = re.compile(r"(tell|see|call|contact|talk to|inform) (your |the )?(doctor|gp|physician|nurse|pharmacist)"
+                      r"|family doctor|next (visit|appointment)|medical (care|help|attention)|when you can", re.I)
+URGENT_OUT = re.compile(r"emergency|911|ambulance|urgent|hospital|\ber\b", re.I)
+
+
+def urgency_lost(source_quote: str, english: str) -> bool:
+    """The source sends the patient to emergency care; the English plain or back-translated text does not."""
+    return bool(URGENT_SRC.search(source_quote or "")) and not URGENT_OUT.search(english or "")
+
+
+def check_translation(item: dict, plain_en: str, patient: str, back_en: str, drug_name: str | None,
+                      kind: str = "", doc: str = "") -> list[str]:
     """Numbers the patient reads must be numbers from the source or from the
     English plain version; key dose numbers must survive; the drug name must
     survive the back-translation."""
     problems: list[str] = []
     allowed = set(numbers(item.get("source_quote", ""))) | set(numbers(plain_en))
+    src = set(numbers(item.get("source_quote", ""))) | {"1", "2", "3", "4"}  # small counts from "BID", "TID"...
+    if kind in ("warning", "emergency"):
+        src |= set(numbers(doc))  # the emergency number may sit in the document's lead-in sentence
+    added = sorted(set(numbers(plain_en)) - src)
+    if added:
+        problems.append("plain text adds numbers not in the source: " + ", ".join(added))
     pnums = set(numbers(patient))
     extra = sorted(pnums - allowed)
     if extra:
@@ -131,6 +155,17 @@ def check_translation(item: dict, plain_en: str, patient: str, back_en: str, dru
     lost = sorted(dose_nums - pnums)
     if lost:
         problems.append("dose number missing in translation: " + ", ".join(lost))
+    if kind == "warning":
+        # a sign listed under the emergency heading needs no action of its own, but it must not be softened
+        for label, text in (("plain text", plain_en), ("translation", back_en)):
+            if URGENT_SRC.search(item.get("source_quote", "")) and SOFT_OUT.search(text or "") and not URGENT_OUT.search(text or ""):
+                problems.append(f"urgency weaker than the source: the {label} softens the emergency action")
+                break
+    elif kind == "emergency":
+        if urgency_lost(item.get("source_quote", ""), plain_en):
+            problems.append("urgency weaker than the source: the plain text drops the emergency action")
+        elif urgency_lost(item.get("source_quote", ""), back_en):
+            problems.append("urgency weaker than the source: the translation drops the emergency action")
     if drug_name:
         first = norm(drug_name).split(" ")[0]
         if first and first not in norm(patient) and first not in norm(back_en):

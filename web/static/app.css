@@ -94,6 +94,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-vis
 
 .log,.evalbox{padding:22px 28px;border-top:1px solid var(--rule)}
 .log h2,.evalbox h2{font-size:15px;margin-bottom:10px}
+.scrollx{overflow-x:auto}
 .log table{border-collapse:collapse;width:100%;font-size:13px}
 .log th,.log td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--rule)}
 .log th{font:500 11.5px var(--f-head);text-transform:uppercase;letter-spacing:.05em;color:var(--ink2)}

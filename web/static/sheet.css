@@ -45,3 +45,4 @@ footer{border-top:1px solid var(--rule);padding-top:10px;color:var(--ink2);font-
  .grid tr{border-top:1px solid var(--rule);padding:8px 0;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
  .grid th.drug,.grid .how{grid-column:1/-1;width:auto;border:0}.grid .slot{width:auto;border:0}}
 @media print{body{background:#fff}.sheet{box-shadow:none;margin:0;max-width:none;padding:0}@page{margin:14mm}}
+.er .src{font-weight:600;direction:ltr;unicode-bidi:isolate}

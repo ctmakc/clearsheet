@@ -9,25 +9,25 @@ from .pipeline import LANGUAGES, Result
 L = {
     "en": dict(title="Going home: your instructions", meds="Your medicines", stop="Stop taking these",
                appts="Appointments and tests", care="Looking after yourself",
-               er="Go to Emergency or call 911 if", slots=["Morning", "Midday", "Evening", "Bedtime", "Only when needed"],
+               er="Get help now", slots=["Morning", "Midday", "Evening", "Bedtime", "Only when needed"],
                med="Medicine"),
     "fr": dict(title="Retour à la maison : vos consignes", meds="Vos médicaments", stop="Arrêtez de prendre",
                appts="Rendez-vous et examens", care="Prendre soin de vous",
-               er="Allez à l'urgence ou appelez le 911 si", slots=["Matin", "Midi", "Soir", "Coucher", "Seulement au besoin"],
+               er="Obtenez de l'aide maintenant", slots=["Matin", "Midi", "Soir", "Coucher", "Seulement au besoin"],
                med="Médicament"),
     "uk": dict(title="Виписка додому: ваші інструкції", meds="Ваші ліки", stop="Припиніть приймати",
                appts="Прийоми та аналізи", care="Догляд за собою",
-               er="Їдьте до відділення невідкладної допомоги або телефонуйте 911, якщо",
+               er="Негайно зверніться по допомогу",
                slots=["Ранок", "Обід", "Вечір", "Перед сном", "Лише за потреби"], med="Ліки"),
     "es": dict(title="De vuelta a casa: sus instrucciones", meds="Sus medicamentos", stop="Deje de tomar",
                appts="Citas y pruebas", care="Cómo cuidarse",
-               er="Vaya a Urgencias o llame al 911 si", slots=["Mañana", "Mediodía", "Tarde", "Al acostarse", "Solo si lo necesita"],
+               er="Busque ayuda ahora", slots=["Mañana", "Mediodía", "Tarde", "Al acostarse", "Solo si lo necesita"],
                med="Medicamento"),
     "zh": dict(title="出院回家：您的注意事项", meds="您的药物", stop="请停止服用", appts="复诊和检查",
-               care="自我护理", er="出现以下情况请去急诊或拨打 911", slots=["早上", "中午", "晚上", "睡前", "仅在需要时"],
+               care="自我护理", er="立即求助", slots=["早上", "中午", "晚上", "睡前", "仅在需要时"],
                med="药物"),
     "ar": dict(title="العودة إلى المنزل: تعليماتك", meds="أدويتك", stop="توقف عن تناول", appts="المواعيد والفحوصات",
-               care="العناية بنفسك", er="اذهب إلى الطوارئ أو اتصل بـ 911 إذا",
+               care="العناية بنفسك", er="اطلب المساعدة فورًا",
                slots=["الصباح", "الظهر", "المساء", "قبل النوم", "عند الحاجة فقط"], med="الدواء"),
 }
 SLOT_KEYS = ["morning", "midday", "evening", "bedtime"]
@@ -84,7 +84,20 @@ def render_sheet(res: Result, approved: set[str], edits: dict[str, str], reviewe
         return f'<section class="{cls}"><h2>{_e(t[title_key])}{sub}</h2><ul>{lis}</ul></section>'
 
     er_lis = "".join(f"<li>{bi(i)}</li>" for i in warns)
-    er_head = bi(emerg[0]) if emerg else ""
+    if emerg:
+        er_head = bi(emerg[0])
+    else:
+        # no separate action line was extracted: print the document's own lead-in, verbatim, in English
+        lead = ""
+        for w in warns:
+            q = w.data.get("source_quote", "")
+            i = res.scrubbed.text.find(q) if q else -1
+            if i >= 0:
+                line = res.scrubbed.text[:i].rsplit("\n", 1)[-1] + q
+                if ":" in line:
+                    lead = line.split(":")[0].strip()
+                    break
+        er_head = f'<div class="pt src">{_e(restore(lead))}:</div><div class="en">from the discharge summary, as written</div>' if lead else ""
     er_sub = "" if lang == "en" else f'<small>{_e(en["er"])}</small>'
     er = (f'<section class="er"><h2>{_e(t["er"])}{er_sub}</h2>{er_head}<ul>{er_lis}</ul></section>'
           if warns or emerg else "")
