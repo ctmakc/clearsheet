@@ -1,0 +1,1 @@
+Turns a hospital discharge summary into instructions a patient can follow, in their own language. Gemma 3 27B on an AMD Instinct MI300X drafts; code checks every number and quote against the source; a nurse releases flagged lines.

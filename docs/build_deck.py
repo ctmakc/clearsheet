@@ -32,9 +32,11 @@ MT = R["mutation_test"]
 TM = R["translation_mutation_test"]
 best = max(B["rows"], key=lambda r: r["output_tok_per_s"]) if B else None
 one = min(B["rows"], key=lambda r: r["concurrency"]) if B else None
-# cost per patient sheet at the measured batched rate (formula shown on the slide)
-tok_per_case = (R["prompt_tokens"] + R["completion_tokens"]) / max(1, R["docs"] * len(R["languages"]))
-out_per_case = R["completion_tokens"] / max(1, R["docs"] * len(R["languages"]))
+# cost of one non-English patient sheet = extract + explain + back-check, averaged over the recorded MI300X calls
+_steps = {}
+for _l in (ROOT / "recordings" / "calls.jsonl").read_text().splitlines():
+    _r = json.loads(_l); _steps.setdefault(_r["step"], []).append(_r["usage"]["completion_tokens"])
+out_per_case = sum(sum(v) / len(v) for v in _steps.values())
 sec_per_case = (out_per_case / best["output_tok_per_s"]) if best else None
 usd_per_case = (sec_per_case / 3600 * 1.99) if sec_per_case else None
 
@@ -120,7 +122,7 @@ We then added a prompt rule ("911 stays 911"); the check stays as the safety net
 <div><b>{pct(TM['rate'])}</b><span>wrong doses planted in translations flagged ({TM['caught']} of {TM['total']})</span></div>
 <div><b>{pct(R['urgency_mutation_test']['rate'])}</b><span>emergency lines softened to "tell your doctor" flagged ({R['urgency_mutation_test']['caught']} of {R['urgency_mutation_test']['total']})</span></div>
 </div><div class="foot">eval/results.json · {R['calls']} model calls · {R['prompt_tokens'] + R['completion_tokens']:,} tokens · {R['run_at']} · {R['model']} · {R['backend']}</div></section>""")
-    cost = (f"<p style='margin-top:40px'>At the batched rate, one patient sheet (extract + explain + back-check, about {round(out_per_case)} output tokens) "
+    cost = (f"<p style='margin-top:40px'>At the batched rate, one translated patient sheet (extract + explain + back-check, about {round(out_per_case, -1):.0f} output tokens) "
             f"takes about {sec_per_case:.1f} GPU-seconds: ${usd_per_case:.4f} at $1.99 per MI300X-hour (AMD Developer Cloud list price, 2025).</p>") if usd_per_case else ""
     s.append(f"""<section class="s"><div class="k">AMD Instinct MI300X</div><h2>192 GB on one GPU: a 27B model in bf16 with room to batch a ward's discharges.</h2>
 {bench}{cost}<div class="foot">eval/bench.json · vLLM V1 engine on ROCm · gemma-3-27b-it bf16</div></section>""")
